@@ -5,17 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table( name = "bankAccount" )
 public class SavingsAccount extends BankAccount
 {
-
 	public SavingsAccount()
 	{
-		super( nextAccountNumber++, 0, SAVINGS_INTERESTRATE, new Date() );
+		super( 0, SAVINGS_INTERESTRATE, new Date() );
 	}
 
 	public SavingsAccount( double balance )
 	{
-		super( nextAccountNumber++, balance, SAVINGS_INTERESTRATE, new Date() );
+		super( balance, SAVINGS_INTERESTRATE, new Date() );
 	}
 
 	public SavingsAccount( long accountNumber, double balance, double interestRate, java.util.Date accountOpenedOn )
@@ -39,6 +43,6 @@ public class SavingsAccount extends BankAccount
 		return savings;
 	}
 
-	public static final double SAVINGS_INTERESTRATE = 0.01;
-	private static long nextAccountNumber = 0;
+	private static final double SAVINGS_INTERESTRATE = 0.01;
+//	private static long nextAccountNumber = 0;
 }

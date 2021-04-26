@@ -4,9 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
-public class Body2addCD
+public class Body2addCd
 {
-	public Body2addCD( double balance, CDID cd )
+	public Body2addCd( double balance, CdID cd )
 	{
 		this.balance = balance;
 		this.cdOffering = cd;
@@ -27,15 +27,15 @@ public class Body2addCD
 		this.balance = balance;
 	}
 
-	public CDID getCdOffering()
+	public CdID getCdOffering()
 	{
 		return cdOffering;
 	}
 
-	public void setCdOffering( CDID cdOffering )
+	public void setCdOffering( CdID cdOffering )
 	{
 		this.cdOffering = cdOffering;
 	}
 
-	public CDID cdOffering;
+	public CdID cdOffering;
 }

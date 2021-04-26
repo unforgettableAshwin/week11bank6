@@ -3,17 +3,21 @@ package com.meritamerica.assignment5.models;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table( name = "bankAccount" )
 public class CheckingAccount extends BankAccount
 {
-
 	public CheckingAccount()
 	{
-		super( nextAccountNumber++, 0, CHECKING_INTERESTRATE, new Date() );
+		super( 0, CHECKING_INTERESTRATE, new Date() );
 	}
 
 	public CheckingAccount( double balance )
 	{
-		super( nextAccountNumber++, balance, CHECKING_INTERESTRATE, new Date() );
+		super( balance, CHECKING_INTERESTRATE, new Date() );
 	}
 
 	public CheckingAccount( long accountNumber, double balance, double interestRate, java.util.Date accountOpenedOn )
@@ -34,5 +38,5 @@ public class CheckingAccount extends BankAccount
 	}
 
 	public static final double CHECKING_INTERESTRATE = 0.0001;
-	private static long nextAccountNumber = 0;
+//	private static long nextAccountNumber = 0;
 }

@@ -5,41 +5,43 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-public class CDAccount extends BankAccount
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table( name = "bankAccount" )
+public class CdAccount extends BankAccount
 {
-	public CDAccount()
+	public CdAccount()
 	{
-		super( MeritBank.getNextAccountNumber(), 0, 0.01, new Date() );
+		super( 0, 0.01, new Date() );
 	}
 
-	public CDAccount( CDOffering offering )
+	public CdAccount( CdOffering offering )
 	{
-		super( MeritBank.getNextAccountNumber(), 0, offering.getInterestRate(), new Date() );
+		super( 0, offering.getInterestRate(), new Date() );
 		this.offering = offering;
 	}
 
-	public CDAccount( CDOffering offering, double balance )
+	public CdAccount( CdOffering offering, double balance )
 	{
-		super( MeritBank.getNextAccountNumber(), balance, offering.getInterestRate(), new Date() );
+		super( balance, offering.getInterestRate(), new Date() );
 		this.offering = offering;
 	}
 
-	public CDAccount( long accountNumber, double balance, double interestRate, java.util.Date accountOpenedOn,
-			int term )
+	public CdAccount( long accountNumber, double balance, double interestRate, java.util.Date accountOpenedOn, int term )
 	{
 		super( accountNumber, balance, interestRate, accountOpenedOn );
-		this.offering = new CDOffering( term, interestRate );
+		this.offering = new CdOffering( term, interestRate );
 	}
 
+	@Override
 	public double getInterestRate()
-	{
-		return this.offering.getInterestRate();
-	}
+	{ return this.offering.getInterestRate(); }
 
 	public int getTerm()
-	{
-		return this.offering.getTerm();
-	}
+	{ return this.offering.getTerm(); }
 
 	public java.util.Date getStartDate()
 	{
@@ -47,11 +49,13 @@ public class CDAccount extends BankAccount
 		return date;
 	}
 
+	@Override
 	public boolean withdraw( double amount )
 	{
 		return false;
 	}
 
+	@Override
 	public boolean deposit( double amount )
 	{
 		return false;
@@ -63,7 +67,7 @@ public class CDAccount extends BankAccount
 		return futureVal;
 	}
 
-	public static CDAccount readFromString( String accountData ) throws java.lang.NumberFormatException
+	public static CdAccount readFromString( String accountData ) throws java.lang.NumberFormatException
 	{
 		StringTokenizer token = new StringTokenizer( accountData, "," );
 		int numAccount = Integer.parseInt( token.nextToken() );
@@ -77,26 +81,23 @@ public class CDAccount extends BankAccount
 
 		int term = Integer.parseInt( token.nextToken() );
 
-		CDAccount cdAcc = new CDAccount( numAccount, balance, rate, date, term );
+		CdAccount cdAcc = new CdAccount( numAccount, balance, rate, date, term );
 		return cdAcc;
 	}
 
+	@Override
 	public String writeToString()
 	{
-		String cdString = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + getStartDate() + ","
-				+ getTerm();
+		String cdString = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + getStartDate() + "," + getTerm();
 		return cdString;
 	}
 
-	private CDOffering offering;
+	@Transient
+	private CdOffering offering;
 
-	public CDOffering getOffering()
-	{
-		return offering;
-	}
+	public CdOffering getOffering()
+	{ return offering; }
 
-	public void setOffering( CDOffering offering )
-	{
-		this.offering = offering;
-	}
+	public void setOffering( CdOffering offering )
+	{ this.offering = offering; }
 }

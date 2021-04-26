@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.controller;
+package com.meritamerica.assignment5.controllers;
 
 import java.util.ArrayList;
 
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meritamerica.assignment5.exceptions.InvalidRequestException;
 import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
-import com.meritamerica.assignment5.models.CDOffering;
+import com.meritamerica.assignment5.models.CdOffering;
 import com.meritamerica.assignment5.models.MeritBank;
 
 @RestController
-public class CDOfferingsController
+public class CdOfferingsController
 {
-	ArrayList< CDOffering > cdOfferings = new ArrayList< CDOffering >();
+	ArrayList< CdOffering > cdOfferings = new ArrayList< CdOffering >();
 
 	@ResponseStatus( HttpStatus.CREATED )
 	@PostMapping( value = "/CDOfferings" )
-	public CDOffering createCDOffering( @RequestBody CDOffering cdOffering ) throws InvalidRequestException
+	public CdOffering createCDOffering( @RequestBody CdOffering cdOffering ) throws InvalidRequestException
 	{
 
 		if( cdOffering.getInterestRate() <= 0 || cdOffering.getInterestRate() >= 1 )
@@ -35,20 +35,20 @@ public class CDOfferingsController
 			throw new InvalidRequestException( "Invalid Request" );
 		}
 		cdOfferings.add( cdOffering );
-		MeritBank.setCDOfferings( cdOfferings.toArray( new CDOffering[0] ) );
+		MeritBank.setCDOfferings( cdOfferings.toArray( new CdOffering[0] ) );
 		return cdOffering;
 	}
 
 	@GetMapping( value = "/CDOfferings" )
-	public CDOffering[] getCDOfferings()
+	public CdOffering[] getCDOfferings()
 	{
-		return cdOfferings.toArray( new CDOffering[0] );
+		return cdOfferings.toArray( new CdOffering[0] );
 	}
 
 	@GetMapping( value = "/CDOfferings/{id}" )
-	public CDOffering getCDOfferingById( @PathVariable int id ) throws NoSuchResourceFoundException
+	public CdOffering getCDOfferingById( @PathVariable int id ) throws NoSuchResourceFoundException
 	{
-		for( CDOffering cdo : MeritBank.getCDOfferings() )
+		for( CdOffering cdo : MeritBank.getCDOfferings() )
 			if( cdo.getId() == id ) return cdo;
 
 		throw new NoSuchResourceFoundException( "No Such Resource Found" );

@@ -1,6 +1,6 @@
 package com.meritamerica.assignment5.models;
 
-public class CDID
+public class CdID
 {
 	int id;
 
