@@ -1,4 +1,9 @@
 INSERT INTO ACCOUNT_HOLDER
-		( 	ID,	FIRST_NAME,	LAST_NAME,	MIDDLE_NAME,	SSN 	) 
-	VALUES	(	1,	'first',	'last',		'middle',	'ssn'	);
-select * from account_holder;
+	VALUES	
+		(	1	, 'first'	, 'last'	, 'middle'		, 'ssn'	)
+		, ( 2	, 'two'		, 'last two', 'middle two'	, 'ssn two'	);
+INSERT INTO account_holders_contact_details
+	values 
+		(	1	, 'address1'	, 'eMail'	, 'phone' )
+		, ( 2	, 'address2'	, 'eMail2'	, 'phone2' )
+		, ( 3	, 'address13'	, 'eMail3'	, 'phone3' );

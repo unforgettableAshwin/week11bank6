@@ -15,6 +15,19 @@ public class AccountHoldersContactDetails
 	@JoinColumn( name = "id", referencedColumnName = "id" )
 	private AccountHolder ah;
 
+	@Id
+	@GeneratedValue( strategy = GenerationType.AUTO )
+	private Integer id;
+	private String eMail;
+	private String phone;
+	private String address;
+
+	public AccountHolder getAh()
+	{ return ah; }
+
+	public void setAh( AccountHolder ah )
+	{ this.ah = ah; }
+
 	public AccountHoldersContactDetails()
 	{}
 
@@ -46,10 +59,4 @@ public class AccountHoldersContactDetails
 	public void setAddress( String address )
 	{ this.address = address; }
 
-	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO )
-	private Integer id;
-	private String eMail;
-	private String phone;
-	private String address;
 }
