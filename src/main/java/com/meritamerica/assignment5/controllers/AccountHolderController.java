@@ -39,7 +39,7 @@ public class AccountHolderController< body2addCD >
 	public String test()
 	{ return "Testing"; }
 
-	@GetMapping( value = "/AccountHolders" )
+	@GetMapping( value = "/getAhs" )
 	public List< AccountHolder > getAccountHolders()
 	{ return ahr.findAll(); }
 
@@ -98,10 +98,6 @@ public class AccountHolderController< body2addCD >
 		AccountHolder acch = ahr.getOne( id );
 		account.setAh( acch );
 		return car.save( account );
-		// AccountHolder ah = getAccountHolderByID( id );
-		// if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new
-		// InvalidRequestException( "Invalid Request" );
-		// return ah.addCheckingAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/CheckingAccounts" )
@@ -109,29 +105,12 @@ public class AccountHolderController< body2addCD >
 	{ return getAccountHolderByID( id ).getCheckingAccounts(); }
 
 	@PostMapping( value = "/AccountHolders/{id}/SavingsAccounts" )
-	public SavingsAccount createNewSavingsAccount( @RequestBody SavingsAccount account, @PathVariable int id ) throws NoSuchResourceFoundException, InvalidRequestException,
+	public SavingsAccount createNewSavingsAccount( @RequestBody SavingsAccount sa, @PathVariable int id ) throws NoSuchResourceFoundException, InvalidRequestException,
 			ExceedsCombinedBalanceLimitException
 	{
-//<<<<<<< HEAD
-//		AccountHolder ah = getAccountHolderByID( id );
-//		if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
-//		SavingsAccount sa = new SavingsAccount( account.getBalance() );
-//		sar.save( sa );
-//		return ah.addSavingsAccount( account );
-//=======
-		AccountHolder acch = ahr.getOne( id );
-		account.setAh( acch );
-		return sar.save( account );
-
-		// AccountHolder ah = ahr.getOne(id);
-		// account.setAh(ah);
-		// return sar.save(account);
-		// if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new
-		// InvalidRequestException( "Invalid Request" );
-		// SavingsAccount sa = new SavingsAccount(account.getBalance());
-		// sar.save(sa);
-		// return ah.addSavingsAccount( account );
-//>>>>>>> 3c7ae532caf42bdaa526cb880361c7aaa29dbaa1
+		AccountHolder ah = ahr.getOne( id );
+		sa.setAh( ah );
+		return sar.save( sa );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/SavingsAccounts" )

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
+//@Table( name = "CD_OFFERING" )
 public class CdOffering
 {
 	@Id
@@ -19,9 +21,17 @@ public class CdOffering
 	private int term;
 	private double interestRate;
 
-	@OneToMany( cascade = CascadeType.ALL )
-	@JoinColumn( name = "id", referencedColumnName = "id" )
+	public void setTerm( int term )
+	{ this.term = term; }
+
+	public void setInterestRate( double interestRate )
+	{ this.interestRate = interestRate; }
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "offering")
 	private List< CdAccount > cdas;
+
+	public CdOffering()
+	{}
 
 	public CdOffering( int term, double interestRate )
 	{

@@ -10,15 +10,13 @@ import com.meritamerica.assignment5.models.AccountHoldersContactDetails;
 import com.meritamerica.assignment5.repository.AccountHolderContactDetailsRepository;
 
 @RestController
-@RequestMapping( "/rest/AHCD" )
+@RequestMapping( "/AHCD" )
 public class AccountHolderContactDetailsController
 {
 	private AccountHolderContactDetailsRepository ahcdr;
 
 	public AccountHolderContactDetailsController( AccountHolderContactDetailsRepository ahcdr )
-	{
-		this.ahcdr = ahcdr;
-	}
+	{ this.ahcdr = ahcdr; }
 
 	@GetMapping( value = "/all" )
 	public List< AccountHoldersContactDetails > getAHCD()

@@ -6,10 +6,15 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CdAccount extends BankAccount
@@ -18,10 +23,11 @@ public class CdAccount extends BankAccount
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int id;
 
-	@Transient
+	// @Transient
+	@ManyToOne( fetch = FetchType.LAZY )
+	@JoinColumn( name = "cd_offering_id" )
+	@JsonIgnore
 	private CdOffering offering;
-
-	private Integer cdOfferingID;
 
 	public int getId()
 	{ return id; }
@@ -34,12 +40,6 @@ public class CdAccount extends BankAccount
 
 	public void setOffering( CdOffering offering )
 	{ this.offering = offering; }
-
-	public Integer getCdOfferingID()
-	{ return cdOfferingID; }
-
-	public void setCdOfferingID( Integer cdOfferingID )
-	{ this.cdOfferingID = cdOfferingID; }
 
 	public CdAccount()
 	{ super( 0, 0.01, new Date() ); }

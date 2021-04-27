@@ -9,9 +9,7 @@ import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
 public class MeritBank
 {
 	public static void addAccountHolder( AccountHolder accountHolder )
-	{
-		accHolderList.add( accountHolder );
-	}
+	{ accHolderList.add( accountHolder ); }
 
 	public static List< AccountHolder > getAccountHolders()
 	{
@@ -26,10 +24,12 @@ public class MeritBank
 	public static CdOffering getBestCDOffering( double depositAmount )
 	{
 		CdOffering bestCDOffer = offerings[0];
+
 		for( int i = 1; i < offerings.length; i++ )
 		{
 			double futureVal = futureValue( depositAmount, offerings[i].getInterestRate(), offerings[i].getTerm() );
 			double bestFutureVal = futureValue( depositAmount, bestCDOffer.getInterestRate(), bestCDOffer.getTerm() );
+
 			if( futureVal > bestFutureVal )
 			{
 				bestFutureVal = futureVal;
@@ -42,14 +42,17 @@ public class MeritBank
 	public static CdOffering getSecondBestCDOffering( double depositAmount )
 	{
 		CdOffering secondBestOffer = null;
+
 		for( int i = 1; i < offerings.length; i++ )
 		{
+
 			for( int j = i + 1; j < offerings.length; j++ )
 			{
 				double bestFutureVal = futureValue( depositAmount, offerings[i].getInterestRate(), offerings[i].getTerm() );
 				double futureVal = futureValue( depositAmount, offerings[j].getInterestRate(), offerings[j].getTerm() );
 
 				CdOffering[] temp = new CdOffering[1];// a temporary array temp of length 1 to help in sorting
+
 				if( futureVal > bestFutureVal )
 				{
 					temp[0] = offerings[i];
@@ -63,9 +66,7 @@ public class MeritBank
 	}
 
 	public static void clearCDOfferings()
-	{
-		offerings = null;
-	}
+	{ offerings = null; }
 
 	public static void setCDOfferings( CdOffering[] offerings )
 	{
@@ -223,6 +224,7 @@ public class MeritBank
 	public static double power( double amount, int years, double interestRate )
 	{
 		double recurTerm;
+
 		if( years == 0 )
 		{
 			return 1;
@@ -233,44 +235,6 @@ public class MeritBank
 			return ( recurTerm );
 		}
 	}
-
-//	public static BankAccount getBankAccount( long accountId )
-//	{
-//		for( int i = 0; i < accHolderList.size(); i++ )
-//		{
-//			AccountHolder accInfo = accHolderList.get( i );
-//			int numChecking = accInfo.getNumberOfCheckingAccounts();
-//			int numSavings = accInfo.getNumberOfSavingsAccounts();
-//			int numCD = accInfo.getNumberOfCDAccounts();
-//
-//			CheckingAccount[] chkAccts = accInfo.getCheckingAccounts();
-//			for( int j = 0; j < numChecking; j++ )
-//			{
-//				if( chkAccts[j].getAccountNumber() == accountId )
-//				{ return chkAccts[j]; }
-//			}
-//			
-//			SavingsAccount[] savAccts = accInfo.getSavingsAccounts();
-//			for( int j = 0; j < numSavings; j++ )
-//			{
-//				if( savAccts[j].getAccountNumber() == accountId )
-//				{ return savAccts[j]; }
-//			}
-//			
-//			for(SavingsAccount sa: accInfo.getSavingsAccounts())
-//				if
-//				wr.println( sa.writeToString() );
-//
-//			
-//			CDAccount[] cdAccts = accInfo.getCDAccounts();
-//			for( int j = 0; j < numCD; j++ )
-//			{
-//				if( cdAccts[j].getAccountNumber() == accountId )
-//				{ return cdAccts[j]; }
-//			}
-//		}
-//		return null;
-//	}
 
 	public static CdOffering getCDOfferingById( int id ) throws NoSuchResourceFoundException
 	{
