@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -13,6 +16,9 @@ import javax.persistence.Transient;
 @Table( name = "bankAccount" )
 public class CdAccount extends BankAccount
 {
+	@Transient
+	private CdOffering offering;
+
 	public CdAccount()
 	{
 		super( 0, 0.01, new Date() );
@@ -91,9 +97,6 @@ public class CdAccount extends BankAccount
 		String cdString = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + getStartDate() + "," + getTerm();
 		return cdString;
 	}
-
-	@Transient
-	private CdOffering offering;
 
 	public CdOffering getOffering()
 	{ return offering; }
