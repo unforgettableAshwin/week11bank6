@@ -27,6 +27,8 @@ import com.meritamerica.assignment5.models.ExceedsFraudSuspicionLimitException;
 import com.meritamerica.assignment5.models.MeritBank;
 import com.meritamerica.assignment5.models.SavingsAccount;
 import com.meritamerica.assignment5.repository.AccountHolderRepository;
+import com.meritamerica.assignment5.repository.CdAccountRepository;
+import com.meritamerica.assignment5.repository.CdOfferingRepository;
 import com.meritamerica.assignment5.repository.CheckingAccountRepository;
 import com.meritamerica.assignment5.repository.SavingsAccountRepository;
 
@@ -66,6 +68,14 @@ public class AccountHolderController< body2addCD >
      
 	@Autowired
 	private CheckingAccountRepository car;
+	
+	@Autowired
+	private CdAccountRepository cdar;
+	
+	@Autowired
+	private CdOfferingRepository cdr;
+	
+	
 //	public String getString()
 //	{ return "hey"; }
 
@@ -109,11 +119,17 @@ public class AccountHolderController< body2addCD >
 	public SavingsAccount createNewSavingsAccount( @RequestBody SavingsAccount account, @PathVariable int id ) throws NoSuchResourceFoundException, InvalidRequestException,
 			ExceedsCombinedBalanceLimitException
 	{
-		AccountHolder ah = getAccountHolderByID( id );
-		if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
-		SavingsAccount sa = new SavingsAccount(account.getBalance());
-		sar.save(sa);
-		return ah.addSavingsAccount( account );
+		AccountHolder acch = ahr.getOne(id);
+		account.setAh(acch);
+		return sar.save(account);
+		
+		//AccountHolder ah = ahr.getOne(id);
+		//account.setAh(ah);
+		//return sar.save(account);
+	//	if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
+	//	SavingsAccount sa = new SavingsAccount(account.getBalance());
+	//	sar.save(sa);
+	//	return ah.addSavingsAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/SavingsAccounts" )
@@ -126,7 +142,8 @@ public class AccountHolderController< body2addCD >
 	@ResponseStatus( HttpStatus.CREATED )
 	public CdAccount addCD( @RequestBody @Valid Body2addCd body, @PathVariable int id ) throws NoSuchResourceFoundException, InvalidRequestException,
 			ExceedsFraudSuspicionLimitException
-	{
+	{     
+		AccountHolder ah = ahr.getOne(id);
 		CdOffering cdo = MeritBank.getCDOfferingById( body.cdOffering.getId() );
 		if( body.getBalance() < 0 ) throw new InvalidRequestException( "Balance cannot be negative." );
 		return getAccountHolderByID( id ).addCDAccount( cdo, body.getBalance() );
