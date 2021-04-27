@@ -4,12 +4,27 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table( name = "bankAccount" )
+//@Table( name = "bankAccount" )
 public class CheckingAccount extends BankAccount
 {
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public CheckingAccount()
 	{
 		super( 0, CHECKING_INTERESTRATE, new Date() );

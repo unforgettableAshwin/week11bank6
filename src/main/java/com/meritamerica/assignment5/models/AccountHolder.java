@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -257,10 +259,38 @@ public class AccountHolder implements Comparable< AccountHolder >
 
 	// ArrayList is created for storing (1) all the savings account,(2) all the
 	// checking account,(3)all CDA account of an account holder
-	@Transient
-	private ArrayList< SavingsAccount > savingsAccList = new ArrayList< SavingsAccount >();
-	@Transient
-	private ArrayList< CheckingAccount > checkingAccList = new ArrayList< CheckingAccount >();
-	@Transient
-	private ArrayList< CdAccount > cdAccList = new ArrayList< CdAccount >();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ah")
+	private List< SavingsAccount > savingsAccList = new ArrayList<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ah")
+	private List< CheckingAccount > checkingAccList = new ArrayList<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ah")
+	private List< CdAccount > cdAccList = new ArrayList<>();
+
+	public List<SavingsAccount> getSavingsAccList() {
+		return savingsAccList;
+	}
+
+	public void setSavingsAccList(List<SavingsAccount> savingsAccList) {
+		this.savingsAccList = savingsAccList;
+	}
+
+	public List<CheckingAccount> getCheckingAccList() {
+		return checkingAccList;
+	}
+
+	public void setCheckingAccList(List<CheckingAccount> checkingAccList) {
+		this.checkingAccList = checkingAccList;
+	}
+
+	public List<CdAccount> getCdAccList() {
+		return cdAccList;
+	}
+
+	public void setCdAccList(List<CdAccount> cdAccList) {
+		this.cdAccList = cdAccList;
+	}
+	
 }

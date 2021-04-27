@@ -13,12 +13,27 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table( name = "bankAccount" )
+//@Table( name = "bankAccount" )
 public class CdAccount extends BankAccount
 {
-	@Transient
-	private CdOffering offering;
+//<<<<<<< HEAD
+//	@Transient
+//	private CdOffering offering;
+//
+//=======
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+//>>>>>>> f85951ff5101fec6dbd51ababbe99690323a7ea5
 	public CdAccount()
 	{
 		super( 0, 0.01, new Date() );
