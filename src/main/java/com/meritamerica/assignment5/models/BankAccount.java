@@ -15,6 +15,11 @@ public abstract class BankAccount
 	@JsonIgnore
 	private AccountHolder ah;
 
+	protected double balance;
+	protected double interestRate;
+	protected long accountNumber;
+	protected java.util.Date date;
+
 	public AccountHolder getAh()
 	{ return ah; }
 
@@ -97,15 +102,4 @@ public abstract class BankAccount
 		String toStr = "Acct Num " + getAccountNumber() + " balance " + getBalance();
 		return toStr;
 	}
-//<<<<<<< HEAD
-//=======
-
-	// private static long nextAccountNumber = 0;
-	protected double balance;
-	protected double interestRate;
-//	@Id
-//	@GeneratedValue( strategy = GenerationType.IDENTITY )
-	protected long accountNumber;
-	protected java.util.Date date;
-//>>>>>>> 3c7ae532caf42bdaa526cb880361c7aaa29dbaa1
 }
