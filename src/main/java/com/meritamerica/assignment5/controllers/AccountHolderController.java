@@ -27,6 +27,8 @@ import com.meritamerica.assignment5.models.ExceedsFraudSuspicionLimitException;
 import com.meritamerica.assignment5.models.MeritBank;
 import com.meritamerica.assignment5.models.SavingsAccount;
 import com.meritamerica.assignment5.repository.AccountHolderRepository;
+import com.meritamerica.assignment5.repository.CheckingAccountRepository;
+import com.meritamerica.assignment5.repository.SavingsAccountRepository;
 
 @RestController
 public class AccountHolderController< body2addCD >
@@ -47,6 +49,7 @@ public class AccountHolderController< body2addCD >
 		boolean isBlank = account.getFirstName().length() == 0 || account.getLastName().length() == 0 || account.getSSN().length() == 0;
 		if( isNull || isBlank )
 		{ throw new InvalidRequestException( "Invalid Request" ); }
+		ahr.save(account);
 		MeritBank.addAccountHolder( account );
 		return account;
 	}
@@ -56,8 +59,13 @@ public class AccountHolderController< body2addCD >
 	{ return ahr.findAll(); }
 
 	@Autowired
-	public AccountHolderRepository ahr;
-
+	private AccountHolderRepository ahr;
+	
+	@Autowired
+	private SavingsAccountRepository sar;
+     
+	@Autowired
+	private CheckingAccountRepository car;
 //	public String getString()
 //	{ return "hey"; }
 
@@ -83,9 +91,12 @@ public class AccountHolderController< body2addCD >
 	public CheckingAccount createNewCheckingAccount( @RequestBody CheckingAccount account, @PathVariable int id ) throws ExceedsCombinedBalanceLimitException,
 			NoSuchResourceFoundException, InvalidRequestException
 	{
-		AccountHolder ah = getAccountHolderByID( id );
-		if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
-		return ah.addCheckingAccount( account );
+		AccountHolder acch = ahr.getOne(id);
+		account.setAh(acch);
+		return car.save(account);
+		//AccountHolder ah = getAccountHolderByID( id );
+		//if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
+		//return ah.addCheckingAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/CheckingAccounts" )
@@ -100,12 +111,14 @@ public class AccountHolderController< body2addCD >
 	{
 		AccountHolder ah = getAccountHolderByID( id );
 		if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
+		SavingsAccount sa = new SavingsAccount(account.getBalance());
+		sar.save(sa);
 		return ah.addSavingsAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/SavingsAccounts" )
 	public List< SavingsAccount > getSavingsAccounts( @PathVariable int id ) throws NoSuchResourceFoundException
-	{
+	{ 
 		return getAccountHolderByID( id ).getSavingsAccounts();
 	}
 

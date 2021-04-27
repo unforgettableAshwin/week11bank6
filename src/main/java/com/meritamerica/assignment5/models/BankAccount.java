@@ -1,13 +1,35 @@
 package com.meritamerica.assignment5.models;
 
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @MappedSuperclass
 public abstract class BankAccount
+
+
 {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "account_holder_id")
+	@JsonIgnore
+	private AccountHolder ah;
+	
+	public AccountHolder getAh() {
+		return ah;
+	}
+
+	public void setAh(AccountHolder ah) {
+		this.ah = ah;
+	}
+
+	
+	
 	public BankAccount( double balance, double interestRate )
 	{
 		this.balance = balance;
@@ -86,8 +108,8 @@ public abstract class BankAccount
 	// private static long nextAccountNumber = 0;
 	protected double balance;
 	protected double interestRate;
-	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY )
+//	@Id
+//	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	protected long accountNumber;
 	protected java.util.Date date;
 }
