@@ -1,6 +1,7 @@
 package com.meritamerica.assignment5.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,35 +15,34 @@ import com.meritamerica.assignment5.exceptions.InvalidRequestException;
 import com.meritamerica.assignment5.exceptions.NoSuchResourceFoundException;
 import com.meritamerica.assignment5.models.CdOffering;
 import com.meritamerica.assignment5.models.MeritBank;
+import com.meritamerica.assignment5.repository.CdOfferingRepository;
 
 @RestController
 public class CdOfferingsController
 {
-	ArrayList< CdOffering > cdOfferings = new ArrayList< CdOffering >();
+//	ArrayList< CdOffering > cdOfferings = new ArrayList< CdOffering >();
+	private CdOfferingRepository cor;
 
 	@ResponseStatus( HttpStatus.CREATED )
 	@PostMapping( value = "/CDOfferings" )
 	public CdOffering createCDOffering( @RequestBody CdOffering cdOffering ) throws InvalidRequestException
 	{
+		if( cdOffering.getInterestRate() <= 0 || cdOffering.getInterestRate() >= 1 ) throw new InvalidRequestException( "Invalid Request" );
 
-		if( cdOffering.getInterestRate() <= 0 || cdOffering.getInterestRate() >= 1 )
-		{
-			throw new InvalidRequestException( "Invalid Request" );
-		}
 		if( cdOffering.getTerm() < 1 )
 		{
 			cdOffering = null;
 			throw new InvalidRequestException( "Invalid Request" );
 		}
-		cdOfferings.add( cdOffering );
-		MeritBank.setCDOfferings( cdOfferings.toArray( new CdOffering[0] ) );
+//		cdOfferings.add( cdOffering );
+//		MeritBank.setCDOfferings( cdOfferings.toArray( new CdOffering[0] ) );
 		return cdOffering;
 	}
 
 	@GetMapping( value = "/CDOfferings" )
-	public CdOffering[] getCDOfferings()
-	{
-		return cdOfferings.toArray( new CdOffering[0] );
+	public List< CdOffering > getCDOfferings()
+	{ // return cdOfferings.toArray( new CdOffering[0] );
+		return cor.findAll();
 	}
 
 	@GetMapping( value = "/CDOfferings/{id}" )

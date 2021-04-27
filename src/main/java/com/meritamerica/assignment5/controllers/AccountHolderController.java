@@ -33,26 +33,9 @@ import com.meritamerica.assignment5.repository.SavingsAccountRepository;
 @RestController
 public class AccountHolderController< body2addCD >
 {
-	// ArrayList< CDOffering > cdOfferings = new ArrayList< CDOffering >();
-
 	@RequestMapping( value = "/", method = RequestMethod.GET )
 	public String test()
-	{
-		return "Testing";
-	}
-
-	@PostMapping( value = "/AccountHolders" )
-	public AccountHolder addAccountHolder( @RequestBody AccountHolder account ) throws InvalidRequestException
-	{
-		boolean isNull = account.getFirstName() == null || account.getLastName() == null || account.getSSN() == null;
-
-		boolean isBlank = account.getFirstName().length() == 0 || account.getLastName().length() == 0 || account.getSSN().length() == 0;
-		if( isNull || isBlank )
-		{ throw new InvalidRequestException( "Invalid Request" ); }
-		ahr.save(account);
-		MeritBank.addAccountHolder( account );
-		return account;
-	}
+	{ return "Testing"; }
 
 	@GetMapping( value = "/AccountHolders" )
 	public List< AccountHolder > getAccountHolders()
@@ -60,14 +43,28 @@ public class AccountHolderController< body2addCD >
 
 	@Autowired
 	private AccountHolderRepository ahr;
-	
+
 	@Autowired
 	private SavingsAccountRepository sar;
-     
+
 	@Autowired
 	private CheckingAccountRepository car;
 //	public String getString()
 //	{ return "hey"; }
+
+	@PostMapping( value = "/AccountHolders" )
+	public AccountHolder addAccountHolder( @RequestBody AccountHolder account ) throws InvalidRequestException
+	{
+		boolean isNull = account.getFirstName() == null || account.getLastName() == null || account.getSSN() == null;
+
+		boolean isBlank = account.getFirstName().length() == 0 || account.getLastName().length() == 0 || account.getSSN().length() == 0;
+
+		if( isNull || isBlank )
+		{ throw new InvalidRequestException( "Invalid Request" ); }
+		ahr.save( account );
+		MeritBank.addAccountHolder( account );
+		return account;
+	}
 
 	@GetMapping( value = "/rest/AH/all" )
 	List< AccountHolder > getAll()
@@ -75,9 +72,7 @@ public class AccountHolderController< body2addCD >
 
 	@GetMapping( value = "/AccountHolders/{id}" )
 	public AccountHolder getAccountHolderById( @PathVariable int id ) throws NoSuchResourceFoundException
-	{
-		return getAccountHolderByID( id );
-	}
+	{ return getAccountHolderByID( id ); }
 
 	private AccountHolder getAccountHolderByID( int id ) throws NoSuchResourceFoundException
 	{
@@ -91,19 +86,18 @@ public class AccountHolderController< body2addCD >
 	public CheckingAccount createNewCheckingAccount( @RequestBody CheckingAccount account, @PathVariable int id ) throws ExceedsCombinedBalanceLimitException,
 			NoSuchResourceFoundException, InvalidRequestException
 	{
-		AccountHolder acch = ahr.getOne(id);
-		account.setAh(acch);
-		return car.save(account);
-		//AccountHolder ah = getAccountHolderByID( id );
-		//if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
-		//return ah.addCheckingAccount( account );
+		AccountHolder acch = ahr.getOne( id );
+		account.setAh( acch );
+		return car.save( account );
+		// AccountHolder ah = getAccountHolderByID( id );
+		// if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new
+		// InvalidRequestException( "Invalid Request" );
+		// return ah.addCheckingAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/CheckingAccounts" )
 	public List< CheckingAccount > getCheckingAccount( @PathVariable int id ) throws NoSuchResourceFoundException
-	{
-		return getAccountHolderByID( id ).getCheckingAccounts();
-	}
+	{ return getAccountHolderByID( id ).getCheckingAccounts(); }
 
 	@PostMapping( value = "/AccountHolders/{id}/SavingsAccounts" )
 	public SavingsAccount createNewSavingsAccount( @RequestBody SavingsAccount account, @PathVariable int id ) throws NoSuchResourceFoundException, InvalidRequestException,
@@ -111,16 +105,14 @@ public class AccountHolderController< body2addCD >
 	{
 		AccountHolder ah = getAccountHolderByID( id );
 		if( account.getBalance() < 0 || ah.getCombinedBalance() > 250000 ) throw new InvalidRequestException( "Invalid Request" );
-		SavingsAccount sa = new SavingsAccount(account.getBalance());
-		sar.save(sa);
+		SavingsAccount sa = new SavingsAccount( account.getBalance() );
+		sar.save( sa );
 		return ah.addSavingsAccount( account );
 	}
 
 	@GetMapping( value = "/AccountHolders/{id}/SavingsAccounts" )
 	public List< SavingsAccount > getSavingsAccounts( @PathVariable int id ) throws NoSuchResourceFoundException
-	{ 
-		return getAccountHolderByID( id ).getSavingsAccounts();
-	}
+	{ return getAccountHolderByID( id ).getSavingsAccounts(); }
 
 	@PostMapping( value = "/AccountHolders/{id}/CDAccounts" )
 	@ResponseStatus( HttpStatus.CREATED )
@@ -134,7 +126,5 @@ public class AccountHolderController< body2addCD >
 
 	@GetMapping( value = "/AccountHolders/{id}/CDAccounts" )
 	public List< CdAccount > getCDAccounts( @PathVariable int id ) throws NoSuchResourceFoundException
-	{
-		return getAccountHolderByID( id ).getCDAccounts();
-	}
+	{ return getAccountHolderByID( id ).getCDAccounts(); }
 }

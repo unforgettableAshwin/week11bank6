@@ -20,14 +20,13 @@ public class CdOffering
 	private double interestRate;
 
 	@OneToMany( cascade = CascadeType.ALL )
-	@JoinColumn( name = "id", referencedColumnName = "accountNumber" )
+	@JoinColumn( name = "id", referencedColumnName = "id" )
 	private List< CdAccount > cdas;
 
 	public CdOffering( int term, double interestRate )
 	{
 		this.term = term;
 		this.interestRate = interestRate;
-//		this.id = ++nextId;
 	}
 
 	public int getId()
@@ -35,6 +34,12 @@ public class CdOffering
 
 	public void setId( int id )
 	{ this.id = id; }
+
+	public List< CdAccount > getCdas()
+	{ return cdas; }
+
+	public void setCdas( List< CdAccount > cdas )
+	{ this.cdas = cdas; }
 
 	public int getTerm()
 	{ return this.term; }
@@ -46,6 +51,7 @@ public class CdOffering
 	{
 		// expecting like this: 1,0.018
 		CdOffering cd = null;
+
 		if( cdOfferingDataString.indexOf( ',' ) != -1 )
 		{ // if there's no ',' in the string, the string is considered as
 			// NumberFormatException
@@ -65,10 +71,4 @@ public class CdOffering
 		String cdString = this.getTerm() + "," + this.getInterestRate();
 		return cdString;
 	}
-
-	public List< CdAccount > getCdas()
-	{ return cdas; }
-
-	public void setCdas( List< CdAccount > cdas )
-	{ this.cdas = cdas; }
 }

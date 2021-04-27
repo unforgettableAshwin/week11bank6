@@ -9,35 +9,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-//@Table( name = "bankAccount" )
 public class CdAccount extends BankAccount
 {
-//<<<<<<< HEAD
-//	@Transient
-//	private CdOffering offering;
-//
-//=======
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int id;
-	
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-//>>>>>>> f85951ff5101fec6dbd51ababbe99690323a7ea5
+	@Transient
+	private CdOffering offering;
+
+	private Integer cdOfferingID;
+
+	public int getId()
+	{ return id; }
+
+	public void setId( int id )
+	{ this.id = id; }
+
+	public CdOffering getOffering()
+	{ return offering; }
+
+	public void setOffering( CdOffering offering )
+	{ this.offering = offering; }
+
+	public Integer getCdOfferingID()
+	{ return cdOfferingID; }
+
+	public void setCdOfferingID( Integer cdOfferingID )
+	{ this.cdOfferingID = cdOfferingID; }
+
 	public CdAccount()
-	{
-		super( 0, 0.01, new Date() );
-	}
+	{ super( 0, 0.01, new Date() ); }
 
 	public CdAccount( CdOffering offering )
 	{
@@ -72,15 +77,11 @@ public class CdAccount extends BankAccount
 
 	@Override
 	public boolean withdraw( double amount )
-	{
-		return false;
-	}
+	{ return false; }
 
 	@Override
 	public boolean deposit( double amount )
-	{
-		return false;
-	}
+	{ return false; }
 
 	public double futureValue()
 	{
@@ -94,14 +95,11 @@ public class CdAccount extends BankAccount
 		int numAccount = Integer.parseInt( token.nextToken() );
 		long balance = Long.parseLong( token.nextToken() );
 		double rate = Double.parseDouble( token.nextToken() );
-
 		Date date = new Date( token.nextToken() );
 		Format f = new SimpleDateFormat( "dd/MM/yy" );
 		String strDate = f.format( date );
 		date = new Date( strDate );
-
 		int term = Integer.parseInt( token.nextToken() );
-
 		CdAccount cdAcc = new CdAccount( numAccount, balance, rate, date, term );
 		return cdAcc;
 	}
@@ -112,10 +110,4 @@ public class CdAccount extends BankAccount
 		String cdString = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + getStartDate() + "," + getTerm();
 		return cdString;
 	}
-
-	public CdOffering getOffering()
-	{ return offering; }
-
-	public void setOffering( CdOffering offering )
-	{ this.offering = offering; }
 }
