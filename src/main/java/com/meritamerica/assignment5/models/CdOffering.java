@@ -1,19 +1,27 @@
 package com.meritamerica.assignment5.models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class CdOffering
 {
-	//private static int nextId = 0;
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int id;
 	private int term;
 	private double interestRate;
+
+	@OneToMany( cascade = CascadeType.ALL )
+	@JoinColumn( name = "id", referencedColumnName = "accountNumber" )
+	private List< CdAccount > cdas;
 
 	public CdOffering( int term, double interestRate )
 	{
@@ -29,9 +37,7 @@ public class CdOffering
 	{ this.id = id; }
 
 	public int getTerm()
-	{
-		return this.term;
-	}
+	{ return this.term; }
 
 	public double getInterestRate()
 	{ return this.interestRate; }
@@ -59,4 +65,10 @@ public class CdOffering
 		String cdString = this.getTerm() + "," + this.getInterestRate();
 		return cdString;
 	}
+
+	public List< CdAccount > getCdas()
+	{ return cdas; }
+
+	public void setCdas( List< CdAccount > cdas )
+	{ this.cdas = cdas; }
 }

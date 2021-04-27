@@ -16,6 +16,11 @@ import javax.persistence.Transient;
 //@Table( name = "bankAccount" )
 public class CdAccount extends BankAccount
 {
+//<<<<<<< HEAD
+//	@Transient
+//	private CdOffering offering;
+//
+//=======
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int id;
@@ -28,6 +33,7 @@ public class CdAccount extends BankAccount
 		this.id = id;
 	}
 	
+//>>>>>>> f85951ff5101fec6dbd51ababbe99690323a7ea5
 	public CdAccount()
 	{
 		super( 0, 0.01, new Date() );
@@ -106,9 +112,6 @@ public class CdAccount extends BankAccount
 		String cdString = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + getStartDate() + "," + getTerm();
 		return cdString;
 	}
-
-	@Transient
-	private CdOffering offering;
 
 	public CdOffering getOffering()
 	{ return offering; }
